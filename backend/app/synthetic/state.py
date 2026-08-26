@@ -1078,7 +1078,7 @@ class SyntheticState(ResolutionMixin):
              "detail": "Auto-executed within guardrails · Hive fault signals above threshold.", "by": "fleet-auto"},
             {"ts": ts(52),  "agent_id": "supplier", "agent_name": "Supplier Risk", "module_label": "Supplier & Labour Risk", "kind": "approved",
              "title": "Opened contingency review: Mitsubishi HVAC",
-             "detail": "Escalated (financial-health flag) — approved by supply.director@centrica.com.", "by": "supply.director@centrica.com"},
+             "detail": "Escalated (financial-health flag) — approved by supply.director@abc.com.", "by": "supply.director@abc.com"},
             {"ts": ts(75),  "agent_id": "sustainability", "agent_name": "Sustainability & Reverse Logistics", "module_label": "Sustainability", "kind": "auto",
              "title": "Scheduled collection sweep for 14 decommissioned units",
              "detail": "Auto-executed within guardrails · WEEE compliance protected, empty miles reduced.", "by": "fleet-auto"},
@@ -1951,7 +1951,7 @@ class SyntheticState(ResolutionMixin):
                     "resolved_at": (now - timedelta(hours=rnd(1, 12))).isoformat(),
                     "root_cause": "Resolved prior to current shift"},)
             elif status == "acknowledged":
-                exc["acknowledged_by"] = "logistics.ops@centrica.com"
+                exc["acknowledged_by"] = "logistics.ops@abc.com"
                 exc["acknowledged_at"] = (now - timedelta(hours=rnd(1, 4))).isoformat()
             exceptions.append(exc)
         return exceptions
@@ -6332,7 +6332,7 @@ class SyntheticState(ResolutionMixin):
             "description": (
                 "TVS SCS reports a ransomware event on the Leicester NDC warehouse management system. "
                 "Automated picking, ASN feeds and locker telemetry are offline. Throughput at 31% on manual processes. "
-                "No evidence of Centrica data exfiltration. Incident response underway with NCSC notified."
+                "No evidence of ABC data exfiltration. Incident response underway with NCSC notified."
             ),
             "impacted_engineer_count": 300,
             "impacted_skus": [],

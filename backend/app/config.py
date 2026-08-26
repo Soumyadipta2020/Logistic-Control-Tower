@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     # OpenRouter attributes traffic to an app on its dashboards and leaderboards;
     # both headers are optional and cosmetic, and neither affects routing.
     openrouter_site_url: str = os.getenv("OPENROUTER_SITE_URL", "http://localhost:5173")
-    openrouter_app_name: str = os.getenv("OPENROUTER_APP_NAME", "Centrica Logistics Control Tower")
+    openrouter_app_name: str = os.getenv("OPENROUTER_APP_NAME", "ABC Logistics Control Tower")
 
     # Voice, when OpenRouter is the active provider. The TTS default is the same
     # Gemini model used against Google direct, so the tower sounds identical

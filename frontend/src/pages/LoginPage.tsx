@@ -74,7 +74,7 @@ const ROLE_ICON: Record<string, React.ElementType> = {
 }
 
 export function LoginPage() {
-  const [email, setEmail] = useState('supply.director@centrica.com')
+  const [email, setEmail] = useState('supply.director@abc.com')
   const [password, setPassword] = useState('demo1234')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
@@ -154,7 +154,7 @@ export function LoginPage() {
             <p className="login-subcopy">
               The Logistics Control Tower unifies fleet visibility, inventory, supplier risk,
               IoT telemetry and sustainability into a single command centre — built for
-              Centrica's Home Solutions &amp; Smart Energy operations.
+              ABC's Home Solutions &amp; Smart Energy operations.
             </p>
 
             <div
@@ -238,7 +238,7 @@ export function LoginPage() {
               ))}
             </div>
             <div className="login-showcase-bottomline">
-              Built for Centrica's Home Solutions &amp; Smart Energy field operations
+              Built for ABC's Home Solutions &amp; Smart Energy field operations
             </div>
           </div>
         </div>

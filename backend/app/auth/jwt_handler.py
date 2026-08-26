@@ -20,7 +20,7 @@ ALGORITHM = "HS256"
 # spend, so a role that may do the second must be able to do the first, or the
 # model is not an authority model at all.
 DEMO_USERS = {
-    "supply.director@centrica.com": {
+    "supply.director@abc.com": {
         "password": "demo1234",
         "role": "supply_chain_director",
         "name": "Sarah Chen",
@@ -28,7 +28,7 @@ DEMO_USERS = {
         # permissions are covered as they are added rather than silently missing.
         "permissions": ["read:all", "write:all", "export:all"],
     },
-    "logistics.ops@centrica.com": {
+    "logistics.ops@abc.com": {
         "password": "demo1234",
         "role": "logistics_ops",
         "name": "James Okafor",
@@ -36,31 +36,31 @@ DEMO_USERS = {
         # were the same gap one rung down.
         "permissions": ["read:all", "write:po", "write:exception", "write:transfer", "write:locker"],
     },
-    "field.dispatcher@centrica.com": {
+    "field.dispatcher@abc.com": {
         "password": "demo1234",
         "role": "field_dispatcher",
         "name": "Maria Santos",
         "permissions": ["read:field", "write:transfer", "write:locker"],
     },
-    "finance.analyst@centrica.com": {
+    "finance.analyst@abc.com": {
         "password": "demo1234",
         "role": "finance_analyst",
         "name": "David Williams",
         "permissions": ["read:finance", "read:analytics", "export:finance"],
     },
-    "engineer@centrica.com": {
+    "engineer@abc.com": {
         "password": "demo1234",
         "role": "engineer",
         "name": "Tom Briggs",
         "permissions": ["read:own_jobs", "read:own_van_stock", "write:job_completion"],
     },
-    "sustainability@centrica.com": {
+    "sustainability@abc.com": {
         "password": "demo1234",
         "role": "sustainability_manager",
         "name": "Emma Clarke",
         "permissions": ["read:sustainability", "read:reverse", "export:sustainability"],
     },
-    "procurement@centrica.com": {
+    "procurement@abc.com": {
         "password": "demo1234",
         "role": "procurement_manager",
         "name": "Raj Patel",

@@ -171,31 +171,31 @@ export const KPI_DEFINITIONS: Record<string, KPIDef> = {
   first_time_fix_rate: {
     meaning: "Percentage of engineer jobs completed successfully on the very first visit, without a return trip.",
     howCalculated: "Jobs closed on first visit ÷ total jobs dispatched × 100.",
-    benchmark: "Industry benchmark: >85%. Centrica target: 82%.",
+    benchmark: "Industry benchmark: >85%. ABC target: 82%.",
   },
   "first time fix rate": {
     meaning: "Percentage of engineer jobs completed successfully on the very first visit, without a return trip.",
     howCalculated: "Jobs closed on first visit ÷ total jobs dispatched × 100.",
-    benchmark: "Industry benchmark: >85%. Centrica target: 82%.",
+    benchmark: "Industry benchmark: >85%. ABC target: 82%.",
   },
   "First Time Fix Rate": {
     meaning: "Percentage of engineer jobs completed successfully on the very first visit, without a return trip.",
     howCalculated: "Jobs closed on first visit ÷ total jobs dispatched × 100.",
-    benchmark: "Industry benchmark: >85%. Centrica target: 82%.",
+    benchmark: "Industry benchmark: >85%. ABC target: 82%.",
   },
 
   sla_compliance_rate: {
-    meaning: "Percentage of service jobs completed within the contracted SLA window. Breaches expose Centrica to financial penalties and customer churn.",
+    meaning: "Percentage of service jobs completed within the contracted SLA window. Breaches expose ABC to financial penalties and customer churn.",
     howCalculated: "Jobs completed within SLA commitment time ÷ total jobs × 100.",
     benchmark: "Contractual minimum: 95%. Target: 98%. Each 1% drop ≈ £120k annual penalty exposure.",
   },
   "sla compliance rate": {
-    meaning: "Percentage of service jobs completed within the contracted SLA window. Breaches expose Centrica to financial penalties and customer churn.",
+    meaning: "Percentage of service jobs completed within the contracted SLA window. Breaches expose ABC to financial penalties and customer churn.",
     howCalculated: "Jobs completed within SLA commitment time ÷ total jobs × 100.",
     benchmark: "Contractual minimum: 95%. Target: 98%. Each 1% drop ≈ £120k annual penalty exposure.",
   },
   "SLA Compliance": {
-    meaning: "Percentage of service jobs completed within the contracted SLA window. Breaches expose Centrica to financial penalties and customer churn.",
+    meaning: "Percentage of service jobs completed within the contracted SLA window. Breaches expose ABC to financial penalties and customer churn.",
     howCalculated: "Jobs completed within SLA commitment time ÷ total jobs × 100.",
     benchmark: "Contractual minimum: 95%. Target: 98%. Each 1% drop ≈ £120k annual penalty exposure.",
   },
@@ -203,17 +203,17 @@ export const KPI_DEFINITIONS: Record<string, KPIDef> = {
   csat_score: {
     meaning: "Average customer satisfaction rating collected via post-visit survey. Directly tracks customer experience and likelihood of contract renewal.",
     howCalculated: "Sum of ratings (1–5 scale) from post-visit surveys ÷ number of responses.",
-    benchmark: "Good: ≥4.0. Excellent: ≥4.5. Centrica target: 4.5/5.",
+    benchmark: "Good: ≥4.0. Excellent: ≥4.5. ABC target: 4.5/5.",
   },
   "csat score": {
     meaning: "Average customer satisfaction rating collected via post-visit survey. Directly tracks customer experience and likelihood of contract renewal.",
     howCalculated: "Sum of ratings (1–5 scale) from post-visit surveys ÷ number of responses.",
-    benchmark: "Good: ≥4.0. Excellent: ≥4.5. Centrica target: 4.5/5.",
+    benchmark: "Good: ≥4.0. Excellent: ≥4.5. ABC target: 4.5/5.",
   },
   "Customer CSAT": {
     meaning: "Average customer satisfaction rating collected via post-visit survey. Directly tracks customer experience and likelihood of contract renewal.",
     howCalculated: "Sum of ratings (1–5 scale) from post-visit surveys ÷ number of responses.",
-    benchmark: "Good: ≥4.0. Excellent: ≥4.5. Centrica target: 4.5/5.",
+    benchmark: "Good: ≥4.0. Excellent: ≥4.5. ABC target: 4.5/5.",
   },
 
   pre_8am_delivery_success: {
@@ -406,7 +406,7 @@ export const KPI_DEFINITIONS: Record<string, KPIDef> = {
     benchmark: "Target: <5%. Above 10% indicates a structural supply issue or demand forecast failure.",
   },
   "SME Payment On-Time": {
-    meaning: "Percentage of SME (small business) supplier invoices paid within the agreed payment term. Centrica is a signatory to the Prompt Payment Code.",
+    meaning: "Percentage of SME (small business) supplier invoices paid within the agreed payment term. ABC is a signatory to the Prompt Payment Code.",
     howCalculated: "SME invoices paid on or before due date ÷ total SME invoices × 100.",
     benchmark: "Prompt Payment Code commitment: ≥95% within 30 days. Non-compliance is publicly reported.",
   },
@@ -552,33 +552,33 @@ export const KPI_DEFINITIONS: Record<string, KPIDef> = {
   landfill_diversion_pct: {
     meaning: "Percentage of returned and end-of-life parts diverted from landfill via reconditioning, resale, or responsible recycling.",
     howCalculated: "Weight of parts not sent to landfill ÷ total returned part weight × 100.",
-    benchmark: "Target: >95%. Part of Centrica's People & Planet Plan zero-waste commitment.",
+    benchmark: "Target: >95%. Part of ABC's People & Planet Plan zero-waste commitment.",
   },
   "landfill diversion pct": {
     meaning: "Percentage of returned and end-of-life parts diverted from landfill via reconditioning, resale, or responsible recycling.",
     howCalculated: "Weight of parts not sent to landfill ÷ total returned part weight × 100.",
-    benchmark: "Target: >95%. Part of Centrica's People & Planet Plan zero-waste commitment.",
+    benchmark: "Target: >95%. Part of ABC's People & Planet Plan zero-waste commitment.",
   },
   "Landfill Diversion": {
     meaning: "Percentage of returned and end-of-life parts diverted from landfill via reconditioning, resale, or responsible recycling.",
     howCalculated: "Weight of parts not sent to landfill ÷ total returned part weight × 100.",
-    benchmark: "Target: >95%. Part of Centrica's People & Planet Plan zero-waste commitment.",
+    benchmark: "Target: >95%. Part of ABC's People & Planet Plan zero-waste commitment.",
   },
 
   scope3_ytd_tco2e: {
     meaning: "Year-to-date Scope 3 CO₂-equivalent emissions (tCO₂e) from logistics, freight, and third-party supply chain activities.",
     howCalculated: "Sum of emission factors × activity data across all Scope 3 categories 4 (upstream transport) and 9 (downstream transport).",
-    benchmark: "Target: <2,000 tCO₂e for the full financial year. Scope 3 is Centrica's largest emission category.",
+    benchmark: "Target: <2,000 tCO₂e for the full financial year. Scope 3 is ABC's largest emission category.",
   },
   "scope3 ytd tco2e": {
     meaning: "Year-to-date Scope 3 CO₂-equivalent emissions from logistics and supply chain. Includes freight, last-mile delivery, and supplier transport.",
     howCalculated: "Sum of emission factors × activity data across Scope 3 categories 4 and 9.",
-    benchmark: "Target: <2,000 tCO₂e FY. Part of Centrica's net-zero 2045 pathway.",
+    benchmark: "Target: <2,000 tCO₂e FY. Part of ABC's net-zero 2045 pathway.",
   },
   "Scope 3 Emissions YTD": {
     meaning: "Year-to-date Scope 3 CO₂-equivalent emissions from logistics and supply chain. Includes freight, last-mile delivery, and supplier transport.",
     howCalculated: "Sum of emission factors × activity data across Scope 3 categories 4 and 9.",
-    benchmark: "Target: <2,000 tCO₂e FY. Part of Centrica's net-zero 2045 pathway.",
+    benchmark: "Target: <2,000 tCO₂e FY. Part of ABC's net-zero 2045 pathway.",
   },
   "Scope 3 YTD": {
     meaning: "Year-to-date Scope 3 CO₂-equivalent emissions from logistics and supply chain. Includes freight, last-mile delivery, and supplier transport.",
@@ -599,7 +599,7 @@ export const KPI_DEFINITIONS: Record<string, KPIDef> = {
   "CO₂ Saved YTD": {
     meaning: "Tonnes of CO₂-equivalent emissions avoided year-to-date by using reconditioned parts instead of manufacturing new replacements.",
     howCalculated: "Count of reconditioned parts × average CO₂e saving per part (2.4 kg) ÷ 1,000.",
-    benchmark: "Contributes directly to Centrica's Scope 3 reduction target.",
+    benchmark: "Contributes directly to ABC's Scope 3 reduction target.",
   },
   "WEEE Compliance": {
     meaning: "Percentage of Waste Electrical & Electronic Equipment disposed of in full compliance with the WEEE Directive, ensuring legal and environmental obligations are met.",
@@ -838,7 +838,7 @@ export const KPI_DEFINITIONS: Record<string, KPIDef> = {
     howCalculated: "Count of batches passing BSI audit; certification is required before reconditioned parts enter van stock.",
   },
   "People & Planet Plan": {
-    meaning: "Overall status against Centrica's People & Planet commitments in scope for supply chain: circular parts, fleet electrification and Scope 3 reduction.",
+    meaning: "Overall status against ABC's People & Planet commitments in scope for supply chain: circular parts, fleet electrification and Scope 3 reduction.",
     howCalculated: "On track when all in-scope programme milestones are green for the current quarter.",
   },
 

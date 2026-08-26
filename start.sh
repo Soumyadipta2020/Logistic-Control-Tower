@@ -3,7 +3,7 @@
 
 set -e
 
-echo "=== Centrica Logistics Control Tower ==="
+echo "=== ABC Logistics Control Tower ==="
 echo "Starting in DEMO_MODE (no database required)"
 
 # Backend
@@ -31,7 +31,7 @@ echo "Frontend:  http://localhost:5173"
 echo "API Docs:  http://localhost:8000/docs"
 echo "Health:    http://localhost:8000/health"
 echo ""
-echo "Demo login: supply.director@centrica.com / demo1234"
+echo "Demo login: supply.director@abc.com / demo1234"
 echo "Press Ctrl+C to stop"
 echo ""
 

@@ -904,7 +904,7 @@ class ResolutionMixin:
             "raised_by": by}
         call = self._post_outbound(
             "Salesforce Field Service · Van Replenishment",
-            "POST https://fs.centrica-svc.internal/api/v1/van-replenishment-orders",
+            "POST https://fs.abc-svc.internal/api/v1/van-replenishment-orders",
             payload)
 
         order = {
@@ -1644,7 +1644,7 @@ class ResolutionMixin:
             extra["rebooked_to"] = mv["job_rebooked_to"]
             self._post_outbound(
                 "Salesforce Field Service · Scheduling",
-                f"PATCH https://fs.centrica-svc.internal/api/v1/appointments/{mv['linked_job_code']}",
+                f"PATCH https://fs.abc-svc.internal/api/v1/appointments/{mv['linked_job_code']}",
                 {"job_code": mv["linked_job_code"], "new_slot": _iso(new_slot),
                  "reason": f"Carrier delay on {movement_ref}", "customer_notified": True, "by": by})
         elif action == "claim_sla_credit":
@@ -2146,7 +2146,7 @@ class ResolutionMixin:
             route["customers_notified_at"] = _iso(_now())
             self._post_outbound(
                 "Salesforce Field Service · Customer Comms",
-                "POST https://fs.centrica-svc.internal/api/v1/appointments/notify",
+                "POST https://fs.abc-svc.internal/api/v1/appointments/notify",
                 {"engineer_code": engineer_code,
                  "jobs": [a["job_code"] for a in risk["stops_at_risk"]],
                  "revised_window_mins": before, "channel": ["sms", "app"], "by": by})
