@@ -1,0 +1,324 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   ACCESSIBILITY FOUNDATION
+
+   This file is loaded immediately after tokens.css and before any component CSS,
+   so component rules can still override the ergonomics — but the *guarantees*
+   below (focus visibility, reduced motion, forced colours) are written to win.
+
+   What it fixes, from the audit:
+     · There was no global focus indicator. Three ad-hoc :focus-visible rules
+       existed across 4,000 lines of CSS; every other interactive element — nav
+       items, buttons, tabs, table controls, the theme toggle — was invisible to
+       a keyboard user. KPICard went further and set `outline: none` on a
+       tabIndex={0} element, which is a focus trap for sighted keyboard users.
+     · There was no skip link, so reaching page content meant tabbing the whole
+       9-item sidebar on every navigation.
+     · prefers-reduced-motion was honoured in 5 places and ignored everywhere
+       else — including two infinite pulse animations (the P1 banner and the
+       live dot) which are exactly what SC 2.2.2 is about.
+
+   Conformance targets: WCAG 2.2 AA — 1.4.3, 1.4.4, 1.4.11, 1.4.12, 1.4.13,
+   2.1.1, 2.2.2, 2.4.1, 2.4.7, 2.4.11, 2.5.8, 3.2.4.
+═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   1 · FOCUS VISIBILITY  (SC 2.4.7 Focus Visible, 2.4.11 Focus Not Obscured)
+
+   One ring, everywhere, on every focusable thing — including elements a
+   component author forgot about.
+
+   It is two-tone on purpose: a brand-orange ring plus a halo in the surface
+   colour offset behind it. A single-colour ring fails as soon as it lands on a
+   surface close to its own colour (an orange ring on a warning chip, a white
+   ring on a card). The halo guarantees an edge against whatever is underneath,
+   so the indicator survives every context in the app without per-context rules.
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* Author-level default. `:focus-visible` means pointer users never see it,
+   keyboard users always do. */
+:where(a, button, input, select, textarea, summary, [tabindex], [role="button"], [role="tab"], [role="switch"], [role="menuitem"], [role="option"], [contenteditable="true"]):focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  /* The halo. `box-shadow` rather than a second outline so it hugs border-radius. */
+  box-shadow: 0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width) + 1px) var(--focus-ring-halo);
+  /* Scroll focused elements clear of sticky headers (SC 2.4.11). */
+  scroll-margin: var(--space-16);
+  position: relative;
+  z-index: var(--z-raised);
+}
+
+/* Safety net: anything focusable this file didn't enumerate still gets a ring. */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Never let a component silently remove the indicator. Overriding requires
+   deliberately re-declaring a visible one at higher specificity. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* On the always-dark sidebar the page-level ring colour would be wrong — the
+   sidebar keeps its own halo/ring pair, in its own colour space. */
+.sidebar :where(a, button, [tabindex]):focus-visible {
+  outline-color: var(--sidebar-focus-ring);
+  box-shadow: 0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width) + 1px) var(--brand-navy-950);
+}
+
+/* Focus landing inside a scroll container should bring the container's edges in. */
+:where([data-scroll-region]) :focus-visible {
+  scroll-margin-block: var(--space-8);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   2 · SKIP LINK  (SC 2.4.1 Bypass Blocks)
+   Off-screen until focused, then anchored top-left over everything.
+══════════════════════════════════════════════════════════════════════════════ */
+.skip-link {
+  position: fixed;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-sm);
+  background: var(--accent-solid);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  box-shadow: var(--elevation-4);
+  /* Clipped rather than display:none so it stays in the tab order. */
+  transform: translateY(calc(-100% - var(--space-4)));
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   3 · SCREEN-READER UTILITIES
+   `.sr-only` hides visually while keeping the text in the accessibility tree —
+   the mechanism for giving icon-only controls and colour-coded states a name.
+══════════════════════════════════════════════════════════════════════════════ */
+.sr-only,
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Same, but revealed on focus — for skip-link-style controls. */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   4 · REDUCED MOTION  (SC 2.2.2 Pause/Stop/Hide, 2.3.3 Animation from Interactions)
+
+   The global guard. Anything that loops forever is stopped outright; anything
+   transitional is collapsed to a near-instant cross-fade rather than removed,
+   because removing transitions entirely makes state changes harder to follow,
+   not easier.
+══════════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Attention states must not be lost with the animation that carried them.
+     The P1 banner and the live dot both signalled purely through a pulse; with
+     motion off they keep a static high-contrast treatment instead. */
+  .p1-banner {
+    animation: none !important;
+    background: var(--status-danger-solid) !important;
+    border-bottom: 3px solid #FFFFFF;
+  }
+
+  .live-dot {
+    animation: none !important;
+    opacity: 1 !important;
+    box-shadow: 0 0 0 3px var(--status-success-bg);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   5 · TARGET SIZE  (SC 2.5.8 — 24×24 CSS px minimum)
+   Applied via a pseudo-element so a visually small control (a 16px icon button)
+   can keep its size while its hit area meets the requirement.
+
+   `.target-min` is opt-in, applied only to the specific controls that need it.
+   An earlier version of this rule set `position: relative` on every button and
+   link in the app unconditionally — `:where(button, a[href], …)` — so the
+   pseudo-element would always have something to anchor to. That was a
+   cascade landmine: at equal specificity, the LAST rule in source order wins a
+   tie, so this blanket rule silently overrode `position: fixed` on any button
+   or link declared earlier with the same specificity. It demoted the skip
+   link (a plain `.skip-link` class, specificity 0-1-0, identical to this
+   selector's `:not(.target-exempt)`) from `fixed` to `relative`, dropping it
+   into the sidebar's flex flow and pushing the entire app 164px to the right.
+   Scoping the rule to `.target-min` itself — the only place the pseudo-element
+   is actually used — removes the landmine without losing the technique.
+══════════════════════════════════════════════════════════════════════════════ */
+.target-min {
+  position: relative;
+}
+
+.target-min::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: max(100%, var(--target-min));
+  height: max(100%, var(--target-min));
+  transform: translate(-50%, -50%);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   6 · FORCED COLOURS / WINDOWS HIGH CONTRAST
+   In forced-colours mode the OS replaces our palette. Anything we drew with
+   background or box-shadow disappears; these rules restore the boundaries and
+   the focus ring using system colour keywords, which are never overridden.
+══════════════════════════════════════════════════════════════════════════════ */
+@media (forced-colors: active) {
+
+  /* Focus must survive — box-shadow is dropped in this mode, outline is not. */
+  :focus-visible {
+    outline: 3px solid Highlight !important;
+    outline-offset: 2px !important;
+    box-shadow: none !important;
+  }
+
+  /* Surfaces that read as containers only by fill need a real border. */
+  .card,
+  .kpi-card,
+  .badge,
+  .btn,
+  .modal,
+  .support-modal,
+  .form-input,
+  .data-table {
+    border: 1px solid CanvasText !important;
+    forced-color-adjust: none;
+  }
+
+  /* Status carried by fill alone is invisible here; the border restores it. */
+  .status-dot,
+  .kpi-rag,
+  .live-dot,
+  .progress-fill {
+    border: 1px solid CanvasText !important;
+  }
+
+  .btn-primary,
+  .btn-danger {
+    background: ButtonFace !important;
+    color: ButtonText !important;
+  }
+
+  .nav-item.active {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   7 · INCREASED CONTRAST  (prefers-contrast: more)
+   Users who ask the OS for more contrast get stronger boundaries and text that
+   climbs a step up the ramp — without changing layout.
+══════════════════════════════════════════════════════════════════════════════ */
+@media (prefers-contrast: more) {
+  :root {
+    --border: var(--neutral-400);
+    --border-subtle: var(--neutral-300);
+    --text-secondary: var(--neutral-800);
+    --text-tertiary: var(--neutral-700);
+    --focus-ring-width: 3px;
+  }
+
+  [data-theme="dark"] {
+    --border: #46587A;
+    --border-subtle: #33415A;
+    --text-secondary: #E2E8F0;
+    --text-tertiary: #C3D0E3;
+  }
+
+  .card,
+  .kpi-card {
+    border-width: 2px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   8 · TEXT ERGONOMICS  (SC 1.4.4 Resize Text, 1.4.12 Text Spacing, 1.4.8)
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* SC 1.4.12 requires no loss of content when users force these values. Setting
+   sensible defaults means user overrides land close to what already ships. */
+body {
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-wide);
+  word-spacing: normal;
+}
+
+p,
+li {
+  /* Prose should not run past ~75 characters (1.4.8). */
+  max-width: 75ch;
+}
+
+/* Long identifiers (order refs, container IDs, agent names) must wrap rather
+   than force a horizontal scroll at 320px / 400% zoom (SC 1.4.10). */
+:where(td, th, .card-title, .kpi-label, dd, dt) {
+  overflow-wrap: break-word;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   9 · SEMANTIC HELPERS
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* Anything genuinely decorative is hidden from assistive tech at the source. */
+[aria-hidden="true"] {
+  pointer-events: none;
+}
+
+/* Live regions must not be display:none — that stops announcements entirely. */
+[aria-live] {
+  position: relative;
+}
+
+/* Disabled controls stay legible: greying to invisibility is a contrast failure
+   even though disabled controls are exempt from 1.4.3. Legible is still better. */
+:where(button, input, select, textarea)[disabled],
+[aria-disabled="true"] {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+/* A pointer cursor is a promise of interactivity — honour it strictly. */
+:where(button, [role="button"], a[href], summary, label[for]) {
+  cursor: pointer;
+}

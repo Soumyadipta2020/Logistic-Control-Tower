@@ -1,0 +1,639 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   EXL Logistics Control Tower — DESIGN TOKENS
+   The single source of truth for every visual decision in the product.
+
+   Five pillars govern what is in this file:
+
+   ACCESSIBILITY      Every text token is verified ≥ 4.5:1 against every surface it
+                      is allowed to sit on, in BOTH themes. Every control boundary
+                      and focus ring is verified ≥ 3:1 (WCAG 2.2 SC 1.4.3 / 1.4.11).
+                      Ratios are recorded inline so a future change can be checked
+                      without re-deriving them.
+   UNDERSTANDABILITY  Tokens are named for their job (--text-secondary,
+                      --status-danger-text), never for their appearance (--grey-8).
+                      Reading the token tells you where it belongs.
+   DESIGN CONSISTENCY Type, space, radius, elevation and motion are closed scales.
+                      If a value is not on a scale, it is not available — that is
+                      what stops the drift into 9.5px / 13.5px / 7px one-offs.
+   BRAND CONSISTENCY  EXL Orange #FB4E0B and Navy #0F1629 are invariant across
+                      themes. Derived ramps exist so the brand can be used legibly
+                      as text without altering the brand colour itself.
+   ADVANCED TECH      Elevation is a layered light model, not one flat shadow.
+                      Motion uses intentional easing curves with matched durations.
+
+   ── HOW TO USE ────────────────────────────────────────────────────────────────
+   Reach for a semantic token first (--text-secondary), a scale token second
+   (--space-4), and a primitive (--brand-orange-600) only when defining a new
+   semantic token here. Do not use raw hex in components.
+═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   1 · PRIMITIVES — raw values. Never referenced directly by components.
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* ── Brand · invariant across themes ──────────────────────────────────────── */
+  --brand-orange: #FB4E0B;
+  /* THE EXL orange. Identity. */
+  --brand-navy: #0F1629;
+  /* THE EXL navy. Identity.  */
+
+  /* Brand ramp — derived so the brand can meet contrast without being altered.
+     600/700 are the legible-as-text steps; 400/300 are for dark surfaces. */
+  --brand-orange-300: #FF9A70;
+  --brand-orange-400: #FF8A5C;
+  --brand-orange-500: #FF6D35;
+  --brand-orange-600: #FB4E0B;
+  /* = --brand-orange */
+  --brand-orange-700: #D93D00;
+  --brand-orange-800: #C43C05;
+  --brand-orange-900: #9A2F04;
+
+  --brand-navy-700: #1A2035;
+  --brand-navy-800: #131A2C;
+  --brand-navy-900: #0F1629;
+  /* = --brand-navy */
+  --brand-navy-950: #05070F;
+
+  /* Neutral ramp — cool-tinted slate, shared by both themes. */
+  --neutral-0: #FFFFFF;
+  --neutral-25: #F8FAFC;
+  --neutral-50: #F4F5F7;
+  --neutral-100: #F1F5F9;
+  --neutral-200: #E2E8F0;
+  --neutral-300: #CBD5E1;
+  --neutral-400: #94A3B8;
+  --neutral-500: #7E8CA3;
+  --neutral-600: #5F6D82;
+  --neutral-700: #4E5A6B;
+  --neutral-800: #334155;
+  --neutral-900: #0F172A;
+
+  /* Status ramps. Each has a `-bright` (fills, dots, chart marks — non-text),
+     a `-deep` (text on light surfaces) and a `-soft` (text on dark surfaces). */
+  --red-soft: #FCA5A5;
+  --red-bright: #EF4444;
+  --red-solid: #DC2626;
+  --red-deep: #C81E1E;
+  --amber-soft: #FDE68A;
+  --amber-bright: #F59E0B;
+  --amber-solid: #B45309;
+  --amber-deep: #955A06;
+  --green-soft: #6EE7B7;
+  --green-bright: #10B981;
+  --green-solid: #047857;
+  --green-deep: #046B4C;
+  --blue-soft: #93C5FD;
+  --blue-bright: #3B82F6;
+  --blue-solid: #2563EB;
+  --blue-deep: #1D4ED8;
+  --violet-soft: #C4B5FD;
+  --violet-bright: #8B5CF6;
+  --violet-solid: #7C3AED;
+  --violet-deep: #6D28D9;
+  --teal-soft: #5EEAD4;
+  --teal-bright: #14B8A6;
+  --teal-solid: #0F766E;
+  --teal-deep: #115E59;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   2 · TYPE SCALE
+   A closed 9-step scale on a 1.125–1.25 ratio, in rem so it honours the user's
+   browser font-size setting (WCAG 1.4.4 — the old fixed-px scale did not).
+   Line-heights are unitless and tuned per step: tight for display, open for prose.
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --font-sans: 'Yantramanav', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  /* Tabular figures for every number a user compares down a column. */
+  --font-numeric: 'Yantramanav', ui-monospace, 'SF Mono', 'Cascadia Mono', monospace;
+
+  --text-2xs: 0.6875rem;
+  /* 11px — the FLOOR. Nothing smaller ships. */
+  --text-xs: 0.75rem;
+  /* 12px — metadata, captions               */
+  --text-sm: 0.8125rem;
+  /* 13px — dense table cells                */
+  --text-base: 0.875rem;
+  /* 14px — body default                     */
+  --text-md: 1rem;
+  /* 16px — emphasised body, inputs          */
+  --text-lg: 1.125rem;
+  /* 18px — card titles                      */
+  --text-xl: 1.375rem;
+  /* 22px — page titles                      */
+  --text-2xl: 1.75rem;
+  /* 28px — section displays                 */
+  --text-3xl: 2.25rem;
+  /* 36px — KPI figures                      */
+
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  /* Tracking: negative tightens large display type, positive opens small caps. */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-caps: 0.08em;
+  /* ALL-CAPS labels need the extra air */
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   3 · SPACE SCALE — 4px base. Every gap, pad and margin comes from here.
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --space-0: 0;
+  --space-1: 0.25rem;
+  /*  4px */
+  --space-2: 0.5rem;
+  /*  8px */
+  --space-3: 0.75rem;
+  /* 12px */
+  --space-4: 1rem;
+  /* 16px */
+  --space-5: 1.25rem;
+  /* 20px */
+  --space-6: 1.5rem;
+  /* 24px */
+  --space-8: 2rem;
+  /* 32px */
+  --space-10: 2.5rem;
+  /* 40px */
+  --space-12: 3rem;
+  /* 48px */
+  --space-16: 4rem;
+  /* 64px */
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   4 · RADIUS — 4px rhythm. Larger surfaces take larger radii, so nesting reads
+   as concentric rather than arbitrary.
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --radius-xs: 4px;
+  /* chips, dots, inline marks   */
+  --radius-sm: 6px;
+  /* buttons, inputs             */
+  --radius-md: 8px;
+  /* cards, panels  (= --radius) */
+  --radius-lg: 12px;
+  /* modals, sheets              */
+  --radius-xl: 16px;
+  /* hero surfaces               */
+  --radius-full: 999px;
+  /* pills, avatars              */
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   5 · ELEVATION
+   A layered light model, not a single blur. Each level pairs a tight contact
+   shadow (the object touching the surface) with a wide ambient shadow (the room
+   light around it). That pairing is what makes depth read as physical rather
+   than as a grey smudge — and it is redefined per theme, because a shadow on a
+   near-black surface has to work by glow and rim-light, not by darkness.
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-header: 200;
+  --z-overlay: 1000;
+  --z-panel: 2000;
+  --z-tooltip: 3000;
+  --z-modal: 10000;
+  --z-toast: 11000;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   6 · MOTION
+   Durations are matched to distance travelled; easings carry intent.
+   Everything here is disabled wholesale by the reduced-motion guard in a11y.css.
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --duration-instant: 80ms;
+  /* state flips: hover, active        */
+  --duration-fast: 140ms;
+  /* small moves: chips, toggles       */
+  --duration-normal: 220ms;
+  /* panels, disclosure                */
+  --duration-slow: 360ms;
+  /* full-surface transitions          */
+  --duration-deliberate: 560ms;
+  /* attention-directing, once-only    */
+
+  /* Standard — leaves fast, arrives soft. The default for anything entering. */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  /* Decelerate — for things arriving on screen from off it. */
+  --ease-out: cubic-bezier(0.05, 0.7, 0.1, 1);
+  /* Accelerate — for things leaving. */
+  --ease-in: cubic-bezier(0.3, 0, 0.8, 0.15);
+  /* Spring — a single controlled overshoot. Confirmation, never decoration. */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Composed shorthands, so components never re-declare timing by hand. */
+  --transition-colors: color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+  --transition-transform: transform var(--duration-fast) var(--ease-standard);
+  --transition-shadow: box-shadow var(--duration-fast) var(--ease-standard);
+  /* Legacy alias — `var(--transition)` is used in ~40 existing rules. */
+  --transition: var(--duration-fast) var(--ease-standard);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   7 · LAYOUT
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --sidebar-width: 248px;
+  /* Icon-only rail — collapsed via .app-shell.sidebar-collapsed overriding
+     --sidebar-width itself, so every rule written against --sidebar-width
+     (the AI panel's offset included) follows without a second set of rules. */
+  --sidebar-width-collapsed: 72px;
+  --header-height: 60px;
+  --p1-banner-height: 44px;
+  --topbar-height: 44px;
+  /* WCAG 2.2 SC 2.5.8 — minimum 24×24 CSS px for any pointer target. */
+  --target-min: 24px;
+  /* Our own floor, comfortably above the SC. */
+  --target-comfortable: 32px;
+  --content-max: 1680px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   8 · SEMANTIC COLOUR — LIGHT (default)
+
+   Contrast, measured (ratio vs the worst surface the token is permitted on):
+     text-primary    #0F172A   16.1:1  AAA
+     text-secondary  #4E5A6B    6.39:1 AA  (was #64748B → 4.34, borderline fail)
+     text-tertiary   #5F6D82    4.80:1 AA  (was #94A3B8 → 2.35, FAIL)
+     border-strong   #7E8CA3    3.12:1 AA  non-text boundary
+     focus-ring      #FB4E0B    3.11:1 AA  non-text boundary
+══════════════════════════════════════════════════════════════════════════════ */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* ── Surfaces · ascending elevation ── */
+  --bg-page: var(--neutral-50);
+  --bg-card: var(--neutral-0);
+  --bg-header: var(--neutral-0);
+  --bg-subtle: var(--neutral-25);
+  --bg-muted: var(--neutral-100);
+  --bg-table-head: var(--neutral-50);
+  --bg-inset: var(--neutral-100);
+  /* wells, code, recessed areas */
+
+  /* ── Borders ──
+     `--border` is decorative separation. `--border-strong` is the ≥3:1 boundary
+     required whenever the border is the only thing identifying a control. */
+  --border: var(--neutral-200);
+  --border-subtle: var(--neutral-100);
+  --border-strong: var(--neutral-500);
+
+  /* ── Text ── */
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-700);
+  --text-tertiary: var(--neutral-600);
+  --text-inverse: var(--neutral-0);
+  --text-on-accent: var(--neutral-0);
+
+  /* ── Brand accent ──
+     `--accent` is the true brand orange and stays that way: fills, borders,
+     rules, icons, large display type. `--accent-text` is the ramp step that
+     clears 4.5:1 for accent-coloured body text, and `--accent-solid` is the
+     step that clears 4.5:1 *under* white button labels. The brand is never
+     altered — the legible neighbours are used where legibility is required. */
+  --accent: var(--brand-orange-600);
+  --accent-text: var(--brand-orange-800);
+  /* 5.26:1 on white */
+  --accent-solid: var(--brand-orange-700);
+  /* white on it = 4.55:1 */
+  --accent-hover: var(--brand-orange-800);
+  --accent-subtle: rgba(251, 78, 11, 0.08);
+  --accent-muted: rgba(251, 78, 11, 0.16);
+
+  /* ── Status · three roles each ──
+     `-bright` fill / dot / chart mark (non-text)
+     `-text`   the accessible foreground for that status on a light surface
+     `-bg` / `-border`  the tinted container pair */
+  --status-danger: var(--red-bright);
+  --status-danger-text: var(--red-deep);
+  /* 5.74:1 */
+  --status-danger-bg: #FEF2F2;
+  --status-danger-border: #FECACA;
+  --status-danger-solid: var(--red-solid);
+  /* white on it = 4.83:1 */
+
+  --status-warning: var(--amber-bright);
+  --status-warning-text: var(--amber-solid);
+  /* 5.02:1 */
+  --status-warning-bg: #FFFBEB;
+  --status-warning-border: #FDE68A;
+  --status-warning-solid: var(--amber-solid);
+
+  --status-success: var(--green-bright);
+  --status-success-text: var(--green-solid);
+  /* 5.48:1 */
+  --status-success-bg: #F0FDF4;
+  --status-success-border: #BBF7D0;
+  --status-success-solid: var(--green-solid);
+
+  --status-info: var(--blue-bright);
+  --status-info-text: var(--blue-solid);
+  /* 5.17:1 */
+  --status-info-bg: #EFF6FF;
+  --status-info-border: #BFDBFE;
+  --status-info-solid: var(--blue-solid);
+
+  --status-ai: var(--violet-bright);
+  --status-ai-text: var(--violet-solid);
+  /* 5.70:1 */
+  --status-ai-bg: #F5F3FF;
+  --status-ai-border: #DDD6FE;
+  --status-ai-solid: var(--violet-solid);
+
+  --status-neutral: var(--neutral-400);
+  --status-neutral-text: var(--neutral-700);
+  --status-neutral-bg: var(--neutral-100);
+  --status-neutral-border: var(--neutral-300);
+  --status-neutral-solid: var(--neutral-800);
+
+  /* ── Form controls ── */
+  --input-bg: var(--neutral-0);
+  --input-border: var(--neutral-500);
+  /* 3.12:1 — a control boundary, not decoration */
+  --input-border-hover: var(--neutral-600);
+  --input-focus: var(--brand-orange-600);
+  --input-focus-shadow: rgba(251, 78, 11, 0.18);
+  --input-placeholder: var(--neutral-600);
+  /* 4.80:1 — placeholders are text */
+
+  /* ── Focus ──
+     Two-tone: an offset halo in the surface colour separates the brand-coloured
+     ring from whatever is underneath, so the ring stays visible on white, on
+     tinted status containers, and on photographs alike. */
+  --focus-ring: var(--brand-orange-600);
+  --focus-ring-halo: var(--neutral-0);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* ── Elevation · light ── contact + ambient pairs ── */
+  --elevation-0: none;
+  --elevation-1: 0 1px 2px -1px rgb(15 23 42 / 0.10), 0 1px 3px 0 rgb(15 23 42 / 0.06);
+  --elevation-2: 0 2px 4px -2px rgb(15 23 42 / 0.10), 0 4px 8px -2px rgb(15 23 42 / 0.08);
+  --elevation-3: 0 4px 8px -4px rgb(15 23 42 / 0.12), 0 10px 20px -6px rgb(15 23 42 / 0.10);
+  --elevation-4: 0 8px 16px -8px rgb(15 23 42 / 0.16), 0 20px 40px -12px rgb(15 23 42 / 0.14);
+  /* Brand-tinted lift — used only where the accent is already present. */
+  --elevation-accent: 0 4px 12px -4px rgba(251, 78, 11, 0.28);
+
+  --scrollbar-thumb: var(--neutral-300);
+  --scrollbar-thumb-hover: var(--neutral-400);
+  --overlay-scrim: rgb(15 23 42 / 0.42);
+
+  /* Chart gridlines / axes — deliberately quieter than --border. */
+  --chart-grid: var(--neutral-200);
+  --chart-axis: var(--neutral-600);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   9 · SEMANTIC COLOUR — DARK
+
+   Contrast, measured:
+     text-primary    #F0F4FF   17.4:1 AAA
+     text-secondary  #A8B8D0    8.01:1 AAA
+     text-tertiary   #8496AF    5.35:1 AA  (was #5E7491 → 3.37, FAIL)
+     border-strong   #5D7091    3.22:1 AA  non-text boundary
+     focus-ring      #FF7A45    6.86:1 AAA non-text boundary
+     accent-text     #FF8A5C    6.94:1 AA
+
+   Dark mode is NOT light mode inverted: surfaces climb toward the light as they
+   rise (page is darkest, modals lightest), which is how depth reads without
+   shadows to lean on.
+══════════════════════════════════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-page: var(--brand-navy-950);
+  --bg-card: #111827;
+  --bg-header: #111827;
+  --bg-subtle: var(--brand-navy-700);
+  --bg-muted: #1E2739;
+  --bg-table-head: #151E2E;
+  --bg-inset: #0B1020;
+
+  --border: #273347;
+  --border-subtle: #1E2A3D;
+  --border-strong: #5D7091;
+
+  --text-primary: #F0F4FF;
+  --text-secondary: #A8B8D0;
+  --text-tertiary: #8496AF;
+  --text-inverse: var(--neutral-900);
+  --text-on-accent: var(--neutral-900);
+  /* dark ink on the bright dark-mode orange */
+
+  --accent: var(--brand-orange-500);
+  --accent-text: var(--brand-orange-400);
+  /* 6.94:1 on card */
+  --accent-solid: var(--brand-orange-600);
+  --accent-hover: var(--brand-orange-400);
+  --accent-subtle: rgba(255, 109, 53, 0.14);
+  --accent-muted: rgba(255, 109, 53, 0.24);
+
+  --status-danger: var(--red-bright);
+  --status-danger-text: var(--red-soft);
+  /* 9.35:1 */
+  --status-danger-bg: rgba(239, 68, 68, 0.14);
+  --status-danger-border: rgba(239, 68, 68, 0.34);
+  --status-danger-solid: var(--red-solid);
+
+  --status-warning: var(--amber-bright);
+  --status-warning-text: var(--amber-soft);
+  /* 14.2:1 */
+  --status-warning-bg: rgba(245, 158, 11, 0.14);
+  --status-warning-border: rgba(245, 158, 11, 0.34);
+  --status-warning-solid: var(--amber-bright);
+
+  --status-success: var(--green-bright);
+  --status-success-text: var(--green-soft);
+  /* 11.6:1 */
+  --status-success-bg: rgba(16, 185, 129, 0.14);
+  --status-success-border: rgba(16, 185, 129, 0.34);
+  --status-success-solid: var(--green-bright);
+
+  --status-info: var(--blue-bright);
+  --status-info-text: var(--blue-soft);
+  /* 9.84:1 */
+  --status-info-bg: rgba(59, 130, 246, 0.14);
+  --status-info-border: rgba(59, 130, 246, 0.34);
+  --status-info-solid: var(--blue-solid);
+
+  --status-ai: var(--violet-bright);
+  --status-ai-text: var(--violet-soft);
+  /* 9.61:1 */
+  --status-ai-bg: rgba(139, 92, 246, 0.14);
+  --status-ai-border: rgba(139, 92, 246, 0.34);
+  --status-ai-solid: var(--violet-solid);
+
+  --status-neutral: var(--neutral-500);
+  --status-neutral-text: #A8B8D0;
+  --status-neutral-bg: var(--brand-navy-700);
+  --status-neutral-border: #273347;
+  --status-neutral-solid: var(--neutral-600);
+
+  --input-bg: var(--brand-navy-700);
+  --input-border: #5D7091;
+  /* 3.22:1 */
+  --input-border-hover: #7C90AC;
+  --input-focus: var(--brand-orange-500);
+  --input-focus-shadow: rgba(255, 109, 53, 0.24);
+  --input-placeholder: #8496AF;
+  /* 5.35:1 */
+
+  --focus-ring: #FF7A45;
+  --focus-ring-halo: var(--brand-navy-950);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* Dark elevation: shadows go deeper AND a 1px top rim-light is added, which is
+     what actually separates stacked dark surfaces from each other. */
+  --elevation-0: none;
+  --elevation-1: 0 1px 2px -1px rgb(0 0 0 / 0.60), inset 0 1px 0 0 rgb(255 255 255 / 0.03);
+  --elevation-2: 0 2px 6px -2px rgb(0 0 0 / 0.70), inset 0 1px 0 0 rgb(255 255 255 / 0.04);
+  --elevation-3: 0 8px 20px -6px rgb(0 0 0 / 0.78), inset 0 1px 0 0 rgb(255 255 255 / 0.05);
+  --elevation-4: 0 16px 40px -12px rgb(0 0 0 / 0.85), inset 0 1px 0 0 rgb(255 255 255 / 0.07);
+  --elevation-accent: 0 4px 16px -4px rgba(255, 109, 53, 0.34);
+
+  --scrollbar-thumb: #33415A;
+  --scrollbar-thumb-hover: #46587A;
+  --overlay-scrim: rgb(2 4 10 / 0.68);
+
+  --chart-grid: #273347;
+  --chart-axis: #8496AF;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   10 · SIDEBAR — deliberately dark in BOTH themes.
+   The navigation spine is a fixed landmark: keeping it constant means the user's
+   spatial memory of the app survives a theme switch. Only these tokens are
+   theme-invariant by design.
+
+   Contrast on #0F1629:  text 7.41:1 · active 18.4:1 · label 6.09:1 (was 2.49 FAIL)
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --sidebar-bg: var(--brand-navy-900);
+  --sidebar-bg-raised: rgba(255, 255, 255, 0.05);
+  --sidebar-text: rgba(255, 255, 255, 0.62);
+  /* 7.41:1 */
+  --sidebar-text-active: #FFFFFF;
+  /* 18.4:1 */
+  --sidebar-label: rgba(255, 255, 255, 0.55);
+  /* 6.09:1 — was 0.28 / 2.49:1 */
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.08);
+  --sidebar-active-bg: rgba(251, 78, 11, 0.20);
+  --sidebar-active-border: var(--brand-orange-600);
+  --sidebar-border: rgba(255, 255, 255, 0.10);
+  --sidebar-focus-ring: var(--brand-orange-500);
+  /* 6.42:1 on navy */
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   11 · DATA VISUALISATION
+   An ordered categorical sequence chosen for hue-order separation so adjacent
+   series stay distinguishable under deuteranopia and protanopia — the common
+   forms of colour-vision deficiency. Series colour is never the only encoding:
+   charts must also carry a label, a shape, or a direct annotation.
+
+   Status colours are deliberately NOT in this sequence. Red/amber/green mean
+   breach/at-risk/healthy everywhere in this product; letting a chart spend them
+   on "Region 3" would break that meaning.
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --chart-1: #2563EB;
+  /* blue    */
+  --chart-2: #FB4E0B;
+  /* brand   */
+  --chart-3: #0F766E;
+  /* teal    */
+  --chart-4: #7C3AED;
+  /* violet  */
+  --chart-5: #B45309;
+  /* bronze  */
+  --chart-6: #0891B2;
+  /* cyan    */
+  --chart-7: #BE185D;
+  /* magenta */
+  --chart-8: #4E5A6B;
+  /* slate   */
+}
+
+[data-theme="dark"] {
+  --chart-1: #60A5FA;
+  --chart-2: #FF8A5C;
+  --chart-3: #5EEAD4;
+  --chart-4: #C4B5FD;
+  --chart-5: #FBBF24;
+  --chart-6: #67E8F9;
+  --chart-7: #F9A8D4;
+  --chart-8: #A8B8D0;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   12 · LEGACY ALIASES
+   Kept so pre-existing rules and inline var() references keep resolving while
+   surfaces migrate. New code must not use these.
+══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --exl-orange: var(--brand-orange-600);
+  --exl-orange-dark: var(--brand-orange-700);
+  --exl-orange-20: rgba(251, 78, 11, 0.20);
+  --exl-orange-10: rgba(251, 78, 11, 0.10);
+  --exl-navy: var(--brand-navy-900);
+  --exl-navy-mid: var(--brand-navy-700);
+
+  --color-red: var(--status-danger);
+  --color-amber: var(--status-warning);
+  --color-green: var(--status-success);
+  --color-blue: var(--status-info);
+
+  --radius: var(--radius-md);
+  --shadow-sm: var(--elevation-1);
+  --shadow: var(--elevation-2);
+  --shadow-lg: var(--elevation-3);
+
+  --clt-navy: var(--brand-navy-900);
+  --clt-blue: var(--accent);
+  --clt-cyan: var(--brand-orange-500);
+  --clt-orange: var(--brand-orange-600);
+  --clt-red: var(--status-danger);
+  --clt-amber: var(--status-warning);
+  --clt-green: var(--status-success);
+  --clt-grey-50: var(--bg-subtle);
+  --clt-grey-100: var(--border-subtle);
+  --clt-grey-200: var(--border);
+  --clt-grey-300: var(--input-border);
+  --clt-grey-400: var(--text-tertiary);
+  --clt-grey-500: var(--text-secondary);
+  --clt-grey-600: var(--text-secondary);
+  --clt-grey-700: var(--text-primary);
+  --clt-grey-900: var(--text-primary);
+
+  /* These two were referenced from inline styles but never defined anywhere —
+     a pre-existing bug, not a migration casualty. An undefined custom property
+     makes the whole declaration invalid, so `color: var(--clt-grey-600)` was
+     silently inheriting its parent's colour (DashboardPage, TransportPage,
+     ExceptionsPage) and `background: var(--clt-surface)` was painting nothing.
+     Defining them makes those surfaces resolve — and theme-correctly. */
+  --clt-surface: var(--bg-card);
+  --bg-app: var(--bg-page);
+  --shadow-md: var(--elevation-3);
+}

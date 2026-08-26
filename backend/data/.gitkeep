@@ -1,0 +1,2 @@
+# This file ensures the data/ directory is tracked by git.
+# The synthetic_snapshot.json file will be generated here on first run.

@@ -1,0 +1,116 @@
+# ===== Environment & Secrets =====
+.env
+.env.*
+!.env.example
+*.env.local
+*.env.*.local
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+# Anchored to repo root: an unanchored "lib/" also swallows frontend/src/lib/
+/lib/
+/lib64/
+.eggs/
+*.pyo
+.Python
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing & coverage
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyright/
+
+# ===== Databases =====
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+
+# ===== Node / Frontend =====
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+.npm
+.eslintcache
+*.tsbuildinfo
+
+# ===== Logs =====
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ===== OS & Editor =====
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# ===== Docker (keep compose, ignore local overrides) =====
+docker-compose.override.yml
+docker-compose.local.yml
+
+# ===== Agent / AI tooling =====
+/.claude
+/.gemini
+.agents/
+
+# ===== Misc temp files =====
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# ===== Synthetic data seed =====
+# backend/data/synthetic_snapshot.json is intentionally NOT ignored –
+# it is committed as the stable demo seed so Render free (no persistent disk)
+# always finds it and skips regeneration on cold-start.
+# ===== Agent layer runtime state (not a seed) =====
+backend/data/agent_state.json
+
+# ===== Local docs =====
+docs/

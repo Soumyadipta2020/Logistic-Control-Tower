@@ -1,0 +1,65 @@
+services:
+  # ── Backend: FastAPI using Render's native Python runtime (supports free plan) ─
+  - type: web
+    name: clt-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    # --workers 1 is load-bearing: all real-time state is in-process, so a second
+    # worker (or a scaled-up instance count) serves a divergent world. See
+    # app.main._assert_single_process. Sharing state across processes means moving
+    # the snapshot and WS fanout onto clt-redis below — a real re-architecture,
+    # not a config change.
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: clt-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: clt-redis
+          property: connectionString
+      - key: DEMO_MODE
+        value: "true"
+      - key: ENVIRONMENT
+        value: "production"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+
+  # ── Frontend: React/Vite static site (always free) ───────────────────────────
+  - type: web
+    name: clt-frontend
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      # Fill these in after the backend is deployed and its URL is known.
+      # Format: https://clt-backend.onrender.com
+      - key: VITE_API_URL
+        sync: false
+      # Format: wss://clt-backend.onrender.com
+      - key: VITE_WS_URL
+        sync: false
+
+  # ── Key Value (Valkey/Redis compatible) ──────────────────────────────────────
+  - type: keyvalue
+    name: clt-redis
+    plan: free
+    ipAllowList: []
+
+# ── PostgreSQL ────────────────────────────────────────────────────────────────
+databases:
+  - name: clt-db
+    databaseName: clt_db
+    user: clt
+    plan: free
